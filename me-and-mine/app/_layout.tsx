@@ -16,7 +16,19 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+        <Stack.Screen
+          name="modal"
+          options={{
+            presentation: 'formSheet',
+            sheetAllowedDetents: [0.25, 0.5, 1.0], // Android supports max 3 detents
+            sheetGrabberVisible: true,
+            sheetCornerRadius: 24,
+            sheetExpandsWhenScrolledToEdge: true,
+            sheetLargestUndimmedDetentIndex: 0,
+            headerShown: true,
+            title: 'Native Bottom Sheet',
+          }}
+        />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
