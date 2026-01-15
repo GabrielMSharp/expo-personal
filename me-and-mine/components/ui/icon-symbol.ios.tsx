@@ -3,7 +3,7 @@ import { StyleProp, ViewStyle } from 'react-native';
 
 export function IconSymbol({
   name,
-  size = 24,
+  size,
   color,
   style,
   weight = 'regular',
@@ -21,10 +21,7 @@ export function IconSymbol({
       resizeMode="scaleAspectFit"
       name={name}
       style={[
-        {
-          width: size,
-          height: size,
-        },
+        size ? { width: size, height: size } : undefined,
         style,
       ]}
     />

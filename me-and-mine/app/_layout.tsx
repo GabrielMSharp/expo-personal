@@ -3,7 +3,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
-
+import { createSheetOptions } from '@/constants/sheet-presets';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export const unstable_settings = {
@@ -19,16 +19,27 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="modal"
-          options={{
-            presentation: 'formSheet',
-            sheetAllowedDetents: [0.25, 0.5, 1.0], // Android supports max 3 detents
-            sheetGrabberVisible: true,
-            sheetCornerRadius: 40,
-            sheetExpandsWhenScrolledToEdge: true,
-            headerShown: true,
-            title: 'Native Bottom Sheet',
-            headerTransparent: true
-          }}
+          options={createSheetOptions('confirmDismiss', {
+            title: 'Confirm + Dismiss',
+          })}
+        />
+        <Stack.Screen
+          name="sheet-default"
+          options={createSheetOptions('default', {
+            title: 'Default Sheet',
+          })}
+        />
+        <Stack.Screen
+          name="sheet-dismiss"
+          options={createSheetOptions('dismissOnly', {
+            title: 'Dismiss Only',
+          })}
+        />
+        <Stack.Screen
+          name="sheet-fullscreen"
+          options={createSheetOptions('fullScreen', {
+            title: 'Full Screen',
+          })}
         />
       </Stack>
       <StatusBar style="auto" />

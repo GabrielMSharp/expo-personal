@@ -1,18 +1,13 @@
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
-import { Platform, Pressable, StyleSheet } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { HelloWave } from '@/components/hello-wave';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function HomeScreen() {
-  const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
-
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -41,17 +36,38 @@ export default function HomeScreen() {
           to open developer tools.
         </ThemedText>
       </ThemedView>
+
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Try the Bottom Sheet</ThemedText>
-        <ThemedText>
-          Open a native iOS/Android bottom sheet with multiple detents.
-        </ThemedText>
-        <Link href="/modal" asChild>
-          <Pressable style={[styles.sheetButton, { backgroundColor: colors.tint }]}>
-            <ThemedText style={styles.sheetButtonText}>Open Bottom Sheet</ThemedText>
-          </Pressable>
-        </Link>
+        <ThemedText type="subtitle">Step 2: Bottom Sheet Presets</ThemedText>
+        <ThemedText>Test the different sheet configurations:</ThemedText>
+        
+        <View style={styles.buttonGroup}>
+          <Link href="/modal" asChild>
+            <Pressable style={styles.button}>
+              <Text style={styles.buttonText}>Confirm + Dismiss</Text>
+            </Pressable>
+          </Link>
+          
+          <Link href="/sheet-default" asChild>
+            <Pressable style={styles.button}>
+              <Text style={styles.buttonText}>Default</Text>
+            </Pressable>
+          </Link>
+          
+          <Link href="/sheet-dismiss" asChild>
+            <Pressable style={styles.button}>
+              <Text style={styles.buttonText}>Dismiss Only</Text>
+            </Pressable>
+          </Link>
+          
+          <Link href="/sheet-fullscreen" asChild>
+            <Pressable style={styles.button}>
+              <Text style={styles.buttonText}>Full Screen</Text>
+            </Pressable>
+          </Link>
+        </View>
       </ThemedView>
+
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
         <ThemedText>
@@ -83,14 +99,18 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
   },
-  sheetButton: {
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    alignItems: 'center',
+  buttonGroup: {
+    gap: 10,
     marginTop: 8,
   },
-  sheetButtonText: {
+  button: {
+    backgroundColor: '#007AFF',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
