@@ -12,15 +12,15 @@ export default function TabLayout() {
       tintColor={Colors[colorScheme ?? 'light'].tint}
     >
       <NativeTabs.Trigger name="index">
-        <Icon sf="house.fill" />
+        <Icon sf="house.fill" drawable="ic_dialog_map" />
         <Label>Home</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="explore">
-        <Icon sf="paperplane.fill" />
+        <Icon sf="paperplane.fill" drawable="ic_menu_save" />
         <Label>Explore</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="search" options={{ role: 'search' }}>
-        <Icon sf="magnifyingglass" />
+        <Icon sf="magnifyingglass" drawable="ic_search" />
         <Label>Search</Label>
       </NativeTabs.Trigger>
     </NativeTabs>

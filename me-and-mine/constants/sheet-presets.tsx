@@ -68,16 +68,27 @@ function ConfirmButton({ onPress, tintColor }: HeaderButtonProps) {
   );
 }
 
+// Platform-specific sheet options
+const iosSheetOptions: Partial<SheetPreset> = {
+  presentation: 'formSheet',
+  headerTransparent: true, // Enables liquid glass effect
+};
+
+const androidSheetOptions: Partial<SheetPreset> = {
+  presentation: 'modal',
+  animation: 'slide_from_bottom', // Mimics iOS sheet behavior
+};
+
+const platformSheetOptions = Platform.OS === 'ios' ? iosSheetOptions : androidSheetOptions;
+
 // Base sheet configuration
 // Note: On Android, formSheet/sheetAllowedDetents have limited support
 // Sheets may display as full-screen modals
 const baseSheetOptions: SheetPreset = {
-  presentation: Platform.OS === 'ios' ? 'formSheet' : 'modal',
   sheetGrabberVisible: true,
   sheetCornerRadius: 32,
   sheetExpandsWhenScrolledToEdge: true,
-  // Android needs headerShown explicitly, iOS uses headerTransparent for liquid glass
-  ...(Platform.OS === 'ios' ? { headerTransparent: true } : {}),
+  ...platformSheetOptions
 };
 
 // Sheet presets
