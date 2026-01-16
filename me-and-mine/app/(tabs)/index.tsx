@@ -69,6 +69,16 @@ export default function HomeScreen() {
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Design System</ThemedText>
+        <ThemedText>Browse and test all UI components:</ThemedText>
+        <Link href="/storybook" asChild>
+          <Pressable style={[styles.button, styles.storybookButton]}>
+            <Text style={styles.buttonText}>📚 Open Storybook</Text>
+          </Pressable>
+        </Link>
+      </ThemedView>
+
+      <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
         <ThemedText>
           {`When you're ready, run `}
@@ -114,5 +124,8 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  storybookButton: {
+    backgroundColor: '#FF4785',
   },
 });

@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { View, StyleSheet } from 'react-native';
-import { ContextMenu } from './context-menu';
+import { StyleSheet, View } from 'react-native';
 import { ThemedText } from '../themed-text';
 import { ThemedView } from '../themed-view';
+import { ContextMenu } from './context-menu';
 
 // Simple action logger for stories
 const action = (name: string) => () => {
