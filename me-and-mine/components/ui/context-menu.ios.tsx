@@ -1,6 +1,7 @@
 /**
  * ContextMenu - iOS implementation
- * Uses @expo/ui ContextMenu when available (dev build), falls back to web implementation in Expo Go.
+ * Falls back to React Native long-press hint.
+ * Native @expo/ui ContextMenu can be enabled in a development build when stable.
  */
 
 import { useState, type ReactNode } from 'react';
@@ -24,49 +25,7 @@ interface ContextMenuProps {
   onSelect?: (key: string) => void;
 }
 
-// Check if native module is available
-let ExpoContextMenu: any = null;
-let ExpoButton: any = null;
-let hasNativeModule = false;
-
-try {
-  const expoUI = require('@expo/ui/swift-ui');
-  ExpoContextMenu = expoUI.ContextMenu;
-  ExpoButton = expoUI.Button;
-  // Test if the module actually works by checking if it has the expected shape
-  hasNativeModule = ExpoContextMenu && ExpoContextMenu.Trigger && ExpoContextMenu.Items;
-} catch (e) {
-  hasNativeModule = false;
-}
-
-// Native implementation using @expo/ui
-function NativeContextMenu({ children, items, onSelect }: ContextMenuProps) {
-  if (!hasNativeModule) {
-    return <FallbackContextMenu children={children} items={items} onSelect={onSelect} />;
-  }
-
-  return (
-    <ExpoContextMenu>
-      <ExpoContextMenu.Trigger>
-        {children}
-      </ExpoContextMenu.Trigger>
-      <ExpoContextMenu.Items>
-        {items.map((item) => (
-          <ExpoButton
-            key={item.key}
-            onPress={() => onSelect?.(item.key)}
-            role={item.destructive ? 'destructive' : 'default'}
-          >
-            {item.title}
-          </ExpoButton>
-        ))}
-      </ExpoContextMenu.Items>
-    </ExpoContextMenu>
-  );
-}
-
-// Fallback for Expo Go
-function FallbackContextMenu({ children, items, onSelect }: ContextMenuProps) {
+export function ContextMenu({ children, items, onSelect }: ContextMenuProps) {
   const [showHint, setShowHint] = useState(false);
   const colorScheme = useColorScheme() ?? 'light';
   const theme = colors[colorScheme];
@@ -91,17 +50,12 @@ function FallbackContextMenu({ children, items, onSelect }: ContextMenuProps) {
           ]}
         >
           <Text style={[styles.tooltipText, { color: theme.textSecondary }]}>
-            Menu available in dev build
+            Native menu available
           </Text>
         </View>
       )}
     </Pressable>
   );
-}
-
-export function ContextMenu(props: ContextMenuProps) {
-  // Always use fallback in Expo Go since native modules cause warnings
-  return <FallbackContextMenu {...props} />;
 }
 
 const styles = StyleSheet.create({
