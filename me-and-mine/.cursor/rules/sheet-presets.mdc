@@ -1,0 +1,96 @@
+---
+description: Guidelines for implementing bottom sheets and modals using our sheet presets system
+globs:
+  - app/**/*.tsx
+  - components/**/*.tsx
+---
+
+# Sheet Presets
+
+Always use our sheet presets system from `@/constants/sheet-presets` when creating bottom sheets or modals. Never manually configure sheet presentation options.
+
+## Available Presets
+
+| Preset | Detents | Header Buttons | Use Case |
+|--------|---------|----------------|----------|
+| `default` | 25%, 50%, 100% | None | Simple content sheets, info panels |
+| `dismissOnly` | 50%, 100% | X (left) | Forms, settings, content that needs explicit dismiss |
+| `confirmDismiss` | 50%, 100% | X (left), ✓ (right) | Forms requiring confirmation, edit screens |
+| `fullScreen` | 100% | X (left) | Complex flows, full-page content |
+
+## Usage in Route Layouts
+
+Configure sheets in `_layout.tsx` using `createSheetOptions`:
+
+```tsx
+import { createSheetOptions } from '@/constants/sheet-presets';
+
+<Stack.Screen
+  name="my-sheet"
+  options={createSheetOptions('dismissOnly', {
+    title: 'My Sheet Title',
+  })}
+/>
+```
+
+## Customizing Presets
+
+Pass overrides as the second argument to `createSheetOptions`:
+
+```tsx
+// Custom detents
+createSheetOptions('default', {
+  title: 'Custom Sheet',
+  sheetAllowedDetents: [0.3, 0.7],
+})
+
+// Custom header buttons
+createSheetOptions('default', {
+  title: 'Custom Actions',
+  headerLeft: ({ tintColor }) => <MyCustomButton tintColor={tintColor} />,
+  headerRight: ({ tintColor }) => <MyOtherButton tintColor={tintColor} />,
+})
+```
+
+## Important Notes
+
+1. **iOS vs Android**: Sheets use `formSheet` presentation on iOS (with liquid glass effect) and `slide_from_bottom` modal on Android
+2. **Detents on Android**: `sheetAllowedDetents` has limited support on Android; sheets may display as full-screen modals
+3. **Header transparency**: iOS sheets have `headerTransparent: true` for the liquid glass effect
+4. **Grabber visibility**: All presets except `fullScreen` show the sheet grabber
+5. **Corner radius**: Default corner radius is 32pt across all presets
+
+## Navigation
+
+Sheets are dismissed using `router.back()` from expo-router. The built-in dismiss button already handles this.
+
+```tsx
+import { router } from 'expo-router';
+
+// Open a sheet
+router.push('/my-sheet');
+
+// Close programmatically
+router.back();
+```
+
+## Don't Do This
+
+```tsx
+// BAD: Manual sheet configuration
+<Stack.Screen
+  name="my-sheet"
+  options={{
+    presentation: 'formSheet',
+    sheetAllowedDetents: [0.5, 1.0],
+    sheetGrabberVisible: true,
+    // ... more manual config
+  }}
+/>
+
+// GOOD: Use presets
+<Stack.Screen
+  name="my-sheet"
+  options={createSheetOptions('dismissOnly', { title: 'My Sheet' })}
+/>
+```

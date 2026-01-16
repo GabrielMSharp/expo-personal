@@ -166,35 +166,6 @@ export function createSheetOptions(
   };
 }
 
-/**
- * Create a confirm/dismiss sheet with custom handlers
- */
-export function createConfirmSheet(options: {
-  title?: string;
-  onConfirm: () => void;
-  onDismiss?: () => void;
-  detents?: SheetDetent[];
-}): SheetPreset {
-  const { title, onConfirm, onDismiss, detents } = options;
-
-  return {
-    ...sheetPresets.confirmDismiss,
-    ...(title && { title }),
-    ...(detents && { sheetAllowedDetents: detents }),
-    headerLeft: ({ tintColor }: { tintColor?: string }) => (
-      <DismissButton
-        onPress={() => {
-          onDismiss?.();
-          router.back();
-        }}
-        tintColor={tintColor}
-      />
-    ),
-    headerRight: ({ tintColor }: { tintColor?: string }) => (
-      <ConfirmButton onPress={onConfirm} tintColor={tintColor} />
-    ),
-  };
-}
 
 const styles = StyleSheet.create({
   headerButton: {
